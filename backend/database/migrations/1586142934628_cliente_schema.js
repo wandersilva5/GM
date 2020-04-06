@@ -15,7 +15,6 @@ class ClienteSchema extends Schema {
       table.string('endEntrega', 200).notNullable()
       table.string('bairro', 20)
       table.string('cidade', 20)
-      table.string('estado', 20)
       table.string('uf', 2).notNullable()
       table.string('cep', 8)
       table.string('nomeContato', 100)

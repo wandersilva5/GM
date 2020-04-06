@@ -7,7 +7,7 @@ const Material = use("App/Models/Material");
 
 class MaterialController {
   async index () {
-    const materiais = Material.all()
+    const materiais = Material.all();
 
     return materiais
   }

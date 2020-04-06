@@ -7,6 +7,11 @@ Route.post('/register', 'UserController.create');
 
 Route.post('/sessions', 'SessionController.create')
 
-Route.resource('materials', 'MaterialController')
-    .apiOnly()
-    .middleware('auth')
+Route.group(() =>{
+    Route.resource('materials', 'MaterialController').apiOnly()
+    
+    Route.resource('clientes', 'ClienteController').apiOnly()
+    
+    Route.resource('pedidos', 'PedidoController').apiOnly()
+
+}).middleware('auth')

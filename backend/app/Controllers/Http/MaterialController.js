@@ -39,9 +39,7 @@ class MaterialController {
       return material
     } catch (e) {
         console.log(e)
-    }
-
-    
+    }    
   }
 
   async destroy ({ params, response }) {

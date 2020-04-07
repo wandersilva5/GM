@@ -4,6 +4,10 @@
 const Model = use('Model')
 
 class Material extends Model {
+    pedidos(){
+        return this
+            .belongsToMany('App/Models/Pedido')
+    }
 }
 
 module.exports = Material

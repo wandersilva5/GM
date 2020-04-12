@@ -14,7 +14,8 @@ const Server = use('Server')
 */
 const globalMiddleware = [
   'Adonis/Middleware/BodyParser',
-  'App/Middleware/ConvertEmptyStringsToNull'
+  'Adonis/Middleware/AuthInit',
+  'App/Middleware/ConvertEmptyStringsToNull',
 ]
 
 /*
@@ -26,7 +27,7 @@ const globalMiddleware = [
 | specific routes or group of routes.
 |
 | // define
-| {
+ {
 |   auth: 'Adonis/Middleware/Auth'
 | }
 |

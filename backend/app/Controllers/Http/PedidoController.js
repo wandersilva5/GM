@@ -15,15 +15,24 @@ class PedidoController {
   }
 
   async store ({ request, response }) {
-    const { material_id, qtd, valTotal, ...data } = await request.post();
+    const { materiais, numPedido, cliente_id } = await request.post();
     
-    const pedido = await Pedido.create(data);
+    
+    const pedido = await Pedido.create({numPedido, cliente_id });
 
-    if(qtd && qtd.length > 0 ){
+    if(materiais && materiais.length > 0 ){
+      materiais.forEach(async (material) => {
+          if(material.qtd){      
+          await pedido.materiais().attach([material.id], row => {
+            row.qtd = material.qtd
+            row.valTotal = material.valTotal
+          });
+        }
+      });
       
-      await pedido.materiais().attach(material_id, qtd, valTotal);
-      pedido.materiais = await pedido.materiais().fetch();
     }
+
+    pedido.materiais = await pedido.materiais().fetch();
         
     response.status(200).json({
       message:'Seu cadastro foi realizado com sucesso',
@@ -32,6 +41,12 @@ class PedidoController {
   }
 
   async show ({ params, request, response, view }) {
+    const pedido = await Pedido.query().where('id', params.id).with('materiais').fetch();
+
+    response.status(200).json({
+      message:'Este é o pedido',
+      data: pedido
+    });
    
   }
 

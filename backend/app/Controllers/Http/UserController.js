@@ -16,7 +16,7 @@ class UserController {
     await auth.attempt(username, password)
 
     const token = await auth.attempt(username, password)
-    
+
     response.status(200).json({
       message:'Você está logado!',
       data: token

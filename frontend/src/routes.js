@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Logon from './pages/Logon';
 import Dashboard from './pages/Dashboard';
+import Pedidos from './pages/Pedidos';
 
 export default function Routes() {
     return (

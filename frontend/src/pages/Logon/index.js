@@ -13,7 +13,7 @@ import api from '../../services/api';
 import logoImg from '../../assets/logo-ws-system.png';
 
 export default function Logon() {
-    const [ id, setId ] = useState('');
+    const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
     const history = useHistory();
 
@@ -21,15 +21,18 @@ export default function Logon() {
         e.preventDefault();
 
         try {
-            const response = await api.post('sessions', { id });
+            const response = await api.post('login', { username, password })
+            .then(res => {
+                localStorage.setItem('userToken', res.data.token);
+                console.log(res);
+                console.log(res.data);
+              });
             
-            alert(`Seja bem vinda ${response.data.name}`);
-
-            localStorage.setItem('ongId', id);
-            localStorage.setItem('ongName', response.data.name);
-            history.push('/profile');
+            history.push('/dashboard');
+            alert(`Seja bem vindo ${response.data.username}`);
+            
         } catch (error) {
-            alert("Falha no Login, tente novamente.");
+            alert("Falha no Login, tente novamente. " + error);
             
         }
     }
@@ -54,8 +57,8 @@ export default function Logon() {
                                     required
                                     fullWidth
                                     label="Login"
-                                    value={id}
-                                    onChange={e => setId(e.target.value)}
+                                    value={username}
+                                    onChange={e => setUsername(e.target.value)}
                                 />
 
                                 <TextField 

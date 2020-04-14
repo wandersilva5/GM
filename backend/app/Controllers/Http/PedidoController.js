@@ -40,7 +40,7 @@ class PedidoController {
     });
   }
 
-  async show ({ params, request, response, view }) {
+  async show ({ params, response }) {
     const pedido = await Pedido.query().where('id', params.id).with('materiais').fetch();
 
     response.status(200).json({

@@ -87,8 +87,6 @@ export default function Logon() {
                      Não tenho cadastro
                 </Link>
             </Container>
-
-            {/* <img src={heroesImg} alt="Heroes" /> */}
         </div>
     );
 }

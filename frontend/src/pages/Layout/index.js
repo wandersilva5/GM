@@ -129,7 +129,6 @@ const drawer = (
       <main className={classes.content}>
         <div className={classes.toolbar} />
             {children}
-        
       </main>
     </div>
   );

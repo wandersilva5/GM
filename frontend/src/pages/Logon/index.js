@@ -24,8 +24,6 @@ export default function Logon() {
             const response = await api.post('login', { username, password })
             .then(res => {
                 localStorage.setItem('userToken', res.data.token);
-                console.log(res);
-                console.log(res.data);
               });
             
             history.push('/dashboard');

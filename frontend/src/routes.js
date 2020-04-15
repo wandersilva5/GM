@@ -1,10 +1,25 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import Logon from './pages/Logon';
 import Dashboard from './pages/Dashboard';
 import Pedidos from './pages/Pedidos';
 import Layout from './pages/Layout';
+// import RouterPrivate from './services/routerPrivate';
+import { isAuthenticated } from "./services/auth";
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+      )
+    }
+  />
+);
 
 export default function Routes() {
     return (
@@ -12,8 +27,9 @@ export default function Routes() {
         <Layout>
             <Switch>
                 <Route path="/" exact component={Logon} />
-                <Route path="/dashboard" component={Dashboard} />
-                <Route path="/pedidos" component={Pedidos} />
+                <PrivateRoute path="/dashboard" component={Dashboard} />
+                <PrivateRoute path="/pedidos" component={Pedidos} />
+                <Route path="*" component={() => <h1>Página não existe!</h1>} />
             </Switch>
         </Layout>
         </BrowserRouter>

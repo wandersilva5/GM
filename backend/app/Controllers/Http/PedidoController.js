@@ -4,12 +4,14 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 
 const Pedido = use("App/Models/Pedido");
-const Material = use("App/Models/Material");
 
 class PedidoController {
 
-  async index ({ request, response, view }) {
-    const pedidos = Pedido.query().with('materiais').fetch();
+  async index ({ request, response }) {
+    const pedidos = Pedido
+                    .query()
+                    .with('clientes')
+                    .fetch();
 
     return pedidos;
   }

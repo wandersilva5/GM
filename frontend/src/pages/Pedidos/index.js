@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
+import api from '../../services/api';
+
 import { 
     makeStyles, Typography, Paper, Grid,
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow
@@ -15,20 +19,23 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-function createData(numPedido, nomeCliente, cidade, bairro, valorTotal, statusPedido, dataPedido) {
-    return { numPedido, nomeCliente, cidade, bairro, valorTotal, statusPedido, dataPedido };
-}
-
-const rows = [
-    createData('202004140001', 'Quantinhas da Fran', 'Nova Iguaçu', 'Centro', '200,00', 'Ativo','14/04/2020'),
-    createData('202004140002', 'Farmarcia do Cosme', 'Nova Iguaçu', 'Ponto Chic', '350,00', 'Ativo','14/04/2020'),
-    createData('202004140003', 'Farmarcia da Pose', 'Nova Iguaçu', 'Posse', '2.080,00', 'Ativo','14/04/2020'),
-    createData('202004140004', 'Drogas +', 'Nova Iguaçu', 'Miguel Couto', '130,00', 'Ativo','14/04/2020'),
-    createData('202004140005', 'Farmarcia Drogaria', 'Nova Iguaçu', 'Miguel Couto', '1200,00', 'Ativo','14/04/2020'),
-];
-
 export default function Profile() {
     const classes = useStyles();
+    const [ pedidos, setPedidos ] = useState([]);
+    
+    const history = useHistory();
+
+    const userToken   = localStorage.getItem('userToken');
+
+    useEffect(()=>{
+        api.get('pedidos', {
+            headers:{
+                Authorization: userToken
+            }
+        }).then(response => {
+            setPedidos(response.data);
+        });
+    },[userToken]);
 
     return (
         <div className={classes.root}>
@@ -49,21 +56,19 @@ export default function Profile() {
                                     <TableCell align="right">Cliente</TableCell>
                                     <TableCell align="right">Cidade</TableCell>
                                     <TableCell align="right">Bairro</TableCell>
-                                    <TableCell align="right">Valor Total</TableCell>
                                     <TableCell align="right">Status</TableCell>
                                     <TableCell align="right">Data Pedido</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                            {rows.map((row) => (
-                                <TableRow key={row.id}>
-                                    <TableCell component="th" scope="row">{row.numPedido}</TableCell>
-                                    <TableCell align="right">{row.nomeCliente}</TableCell>
-                                    <TableCell align="right">{row.cidade}</TableCell>
-                                    <TableCell align="right">{row.bairro}</TableCell>
-                                    <TableCell align="right">{row.valorTotal}</TableCell>
-                                    <TableCell align="right">{row.statusPedido}</TableCell>
-                                    <TableCell align="right">{row.dataPedido}</TableCell>
+                            {pedidos.map((pedido) => (
+                                <TableRow key={pedido.id}>
+                                    <TableCell component="th" scope="row">{pedido.numPedido}</TableCell>
+                                    <TableCell align="right">{pedido.clientes.nomeFantasia}</TableCell>
+                                    <TableCell align="right">{pedido.clientes.cidade}</TableCell>
+                                    <TableCell align="right">{pedido.clientes.bairro}</TableCell>
+                                    <TableCell align="right">{pedido.statusPedido}</TableCell>
+                                    <TableCell align="right">{pedido.created_at}</TableCell>
                                 </TableRow>
                             ))}
                             </TableBody>

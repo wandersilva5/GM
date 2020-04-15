@@ -9,6 +9,10 @@ class Pedido extends Model {
             .belongsToMany('App/Models/Material')
             .pivotTable('pedido_material');
     }
+
+    clientes () {
+        return this.belongsTo('App/Models/Cliente')
+    }
 }
 
 module.exports = Pedido

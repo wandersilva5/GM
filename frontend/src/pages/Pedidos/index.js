@@ -42,9 +42,7 @@ export default function Profile() {
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
-                        <Typography variant="body1" gutterBottom>
-                            <h4>Listagem de Pedidos</h4>
-                        </Typography>
+                        <h4>Listagem de Pedidos</h4>
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>

@@ -21,10 +21,17 @@ export default function Logon() {
         e.preventDefault();
 
         try {
-            const response = await api.post('login', { username, password })
-            .then(res => {
-                localStorage.setItem('userToken', res.data.token);
-              });
+            const response = await api.post('login', { 
+                username, 
+                password 
+            })
+            .then(resp => {
+                localStorage.setItem('userToken', JSON.stringify(response.data.token));
+                console.log(JSON.stringify(response.data.token));
+                
+            }).catch(error => {
+                console.log(error)
+            })
             
             history.push('/dashboard');
             alert(`Seja bem vindo ${response.data.username}`);

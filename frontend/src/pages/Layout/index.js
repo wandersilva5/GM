@@ -10,6 +10,9 @@ import {
 import Dashboard from '@material-ui/icons/Dashboard';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MenuIcon from '@material-ui/icons/Menu';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+
+import { logout } from '../../services/auth';
 
 const drawerWidth = 240;
 
@@ -41,6 +44,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  alignRigth: {
+    position: 'absolute',
+    right: theme.spacing(3),
+    color: 'white'
+  }
 }));
 
 Layout.propTypes = {
@@ -60,19 +68,20 @@ export default function Layout(props) {
 const drawer = (
     <div>
         <div className={classes.toolbar} />
-        <List>
+          <List>
             <ListItem button key="dashboard" component={Link} to="/dashboard">
-                <ListItemIcon><Dashboard /></ListItemIcon>
-                <ListItemText primary="Dashboard" />
+              <ListItemIcon><Dashboard /></ListItemIcon>
+              <ListItemText primary="DASHBOARD" />
             </ListItem>
-        {['Pedidos'].map((id, index) => (
-          <ListItem button key={id} component={Link} to="/pedidos">
-            <ListItemIcon><InboxIcon /></ListItemIcon>
-            <ListItemText primary={id} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
+          <Divider />
+          {['Pedidos'].map((id, index) => (
+            <ListItem button key={id} component={Link} to="/pedidos">
+              <ListItemIcon><InboxIcon /></ListItemIcon>
+              <ListItemText primary={id} />
+            </ListItem>
+          ))}
+        <Divider />
+        </List>
     </div>
   );
 
@@ -93,10 +102,19 @@ const drawer = (
           <Typography variant="h6" noWrap>
             WS-SYSTEM
           </Typography>
+
+            <IconButton 
+              className={classes.alignRigth} 
+              onClick={logout}
+              component={Link} 
+              to="/"
+              >
+                <PowerSettingsNewIcon fontSize="large" />
+            </IconButton>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        
         <Hidden smUp implementation="css">
           <Drawer
             container={container}

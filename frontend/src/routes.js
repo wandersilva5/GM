@@ -5,7 +5,7 @@ import Logon from './pages/Logon';
 import Dashboard from './pages/Dashboard';
 import Pedidos from './pages/Pedidos';
 import Layout from './pages/Layout';
-// import RouterPrivate from './services/routerPrivate';
+
 import { isAuthenticated } from "./services/auth";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -24,14 +24,14 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 export default function Routes() {
     return (
         <BrowserRouter>
-        <Layout>
-            <Switch>
-                <Route path="/" exact component={Logon} />
-                <PrivateRoute path="/dashboard" component={Dashboard} />
-                <PrivateRoute path="/pedidos" component={Pedidos} />
-                <Route path="*" component={() => <h1>Página não existe!</h1>} />
-            </Switch>
-        </Layout>
+          <Switch>
+            <Route path="/" exact component={Logon} />
+            <Layout>
+              <PrivateRoute path="/dashboard" component={Dashboard} />
+              <PrivateRoute path="/pedidos" component={Pedidos} />
+            </Layout>
+              <Route path="*" component={() => <h1>Página não existe!</h1>} />
+          </Switch>
         </BrowserRouter>
     )
 }

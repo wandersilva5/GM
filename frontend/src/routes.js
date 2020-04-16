@@ -22,16 +22,16 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 export default function Routes() {
-    return (
-        <BrowserRouter>
-          <Switch>
-            <Route path="/" exact component={Logon} />
-            <Layout>
-              <PrivateRoute path="/dashboard" component={Dashboard} />
-              <PrivateRoute path="/pedidos" component={Pedidos} />
-            </Layout>
-              <Route path="*" component={() => <h1>Página não existe!</h1>} />
-          </Switch>
-        </BrowserRouter>
-    )
+  return (
+    <BrowserRouter>
+      <Layout>
+        <Switch>
+          <Route path="/" exact component={Logon} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
+          <PrivateRoute path="/pedidos" component={Pedidos} />
+          <Route path="*" component={() => <h1>Página não existe!</h1>} />
+        </Switch>
+      </Layout>
+    </BrowserRouter>
+  )
 }

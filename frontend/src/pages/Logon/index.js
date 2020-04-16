@@ -26,15 +26,17 @@ export default function Logon() {
                 password 
             })
             .then(resp => {
-                localStorage.setItem('userToken', JSON.stringify(response.data.token));
-                console.log(JSON.stringify(response.data.token));
-                
+                localStorage.setItem('userToken', resp.data.token);
+
+                history.push('/dashboard');
+                alert(`Seja bem vindo ${response.data.username}`);
+
             }).catch(error => {
                 console.log(error)
             })
+            console.log(response);
             
-            history.push('/dashboard');
-            alert(`Seja bem vindo ${response.data.username}`);
+            
             
         } catch (error) {
             alert("Falha no Login, tente novamente. " + error);

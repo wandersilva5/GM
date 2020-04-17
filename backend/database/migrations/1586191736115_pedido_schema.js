@@ -8,7 +8,8 @@ class PedidoSchema extends Schema {
     this.create('pedidos', (table) => {
       table.increments()
       table.string('numPedido').notNullable()
-      table.integer('cliente_id')
+      table.integer('cliente_id').unsigned().references('id').inTable('clientes')
+      table.integer('status_id').unsigned().references('id').inTable('status')
       table.timestamps()
     })
   }

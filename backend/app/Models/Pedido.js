@@ -13,6 +13,10 @@ class Pedido extends Model {
     clientes () {
         return this.belongsTo('App/Models/Cliente')
     }
+
+    status () {
+        return this.hasMany('App/Models/Status')
+    }
 }
 
 module.exports = Pedido

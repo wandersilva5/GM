@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
+import {format} from 'date-fns'
 
 import api from '../../services/api';
 
 import { 
-    makeStyles, Typography, Paper, Grid,
+    makeStyles, Paper, Grid,
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
 
@@ -23,8 +24,6 @@ export default function Profile() {
     const classes = useStyles();
     const [ pedidos, setPedidos ] = useState([]);
     
-    const history = useHistory();
-
     const userToken   = localStorage.getItem('userToken');
 
     useEffect(()=>{
@@ -65,8 +64,8 @@ export default function Profile() {
                                     <TableCell align="right">{pedido.clientes.nomeFantasia}</TableCell>
                                     <TableCell align="right">{pedido.clientes.cidade}</TableCell>
                                     <TableCell align="right">{pedido.clientes.bairro}</TableCell>
-                                    <TableCell align="right">{pedido.statusPedido}</TableCell>
-                                    <TableCell align="right">{pedido.created_at}</TableCell>
+                                    <TableCell align="right">{pedido.status_id}</TableCell>
+                                    <TableCell align="right">{format(new Date(pedido.created_at), 'dd/mm/yyy hh:mm')}</TableCell>
                                 </TableRow>
                             ))}
                             </TableBody>

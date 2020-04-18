@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import {format} from 'date-fns';
 
 import api from '../../services/api';
-import { status } from '../../services/status';
 
 import { 
     makeStyles, Paper, Grid,
@@ -65,7 +64,7 @@ export default function Profile() {
                                     <TableCell align="right">{ pedido.clientes.nomeFantasia }</TableCell>
                                     <TableCell align="right">{ pedido.clientes.cidade }</TableCell>
                                     <TableCell align="right">{ pedido.clientes.bairro }</TableCell>
-                                    <TableCell align="right">{ pedido.status_id }</TableCell>
+                                    <TableCell align="right">{ pedido.status.status }</TableCell>
                                     <TableCell align="right">{ format(new Date(pedido.created_at), 'dd/mm/yyy hh:mm')}</TableCell>
                                 </TableRow>
                             ))}

@@ -11,6 +11,7 @@ class PedidoController {
     const pedidos = Pedido
       .query()
       .with('clientes')
+      .with('status')
       .fetch();
 
     return pedidos;

@@ -8,7 +8,7 @@
  */
 const Status = use("App/Models/Status");
 
-class StatusPedidoController {
+class StatusController {
 
   async index () {
     const status = Status.all();

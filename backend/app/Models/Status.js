@@ -4,8 +4,9 @@
 const Model = use('Model')
 
 class Status extends Model {
-    pedidos(){
-        return this.belongsTo('App/Models/Pedido')
+    
+    static get table () {
+        return 'status'
     }
 }
 

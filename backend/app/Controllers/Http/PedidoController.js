@@ -9,9 +9,9 @@ class PedidoController {
 
   async index ({ request, response }) {
     const pedidos = Pedido
-                    .query()
-                    .with('clientes')
-                    .fetch();
+      .query()
+      .with('clientes')
+      .fetch();
 
     return pedidos;
   }

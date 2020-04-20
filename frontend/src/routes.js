@@ -5,6 +5,7 @@ import Logon from './pages/Logon';
 import Dashboard from './pages/Dashboard';
 import Pedidos from './pages/Pedidos';
 import Layout from './pages/Layout';
+import PedidosNew from './pages/Pedidos/create';
 
 import { isAuthenticated } from "./services/auth";
 
@@ -28,7 +29,8 @@ export default function Routes() {
         <Switch>
           <Route path="/" exact component={Logon} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
-          <PrivateRoute path="/pedidos" component={Pedidos} />
+          <PrivateRoute path="/pedidos" exact component={Pedidos} />
+          <PrivateRoute path="/pedidos/new" component={PedidosNew} />
           <Route path="*" component={() => <h1>Página não existe!</h1>} />
         </Switch>
       </Layout>

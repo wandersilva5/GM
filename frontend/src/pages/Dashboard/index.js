@@ -19,9 +19,7 @@ export default function Profile() {
         <div className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Paper className={classes.paper}>
-                        <h4>Dashboard</h4>
-                    </Paper>
+                    <h4>Dashboard</h4>
                 </Grid>
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>

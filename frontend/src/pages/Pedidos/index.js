@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-// import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {format} from 'date-fns';
 
 import api from '../../services/api';
 
 import { 
     makeStyles, Paper, Grid,
-    Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button
 } from '@material-ui/core';
+
+import ControlPoint from '@material-ui/icons/ControlPoint';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function Profile() {
+export default function Pedidos() {
     const classes = useStyles();
     const [ pedidos, setPedidos ] = useState([]);
     
@@ -40,11 +43,17 @@ export default function Profile() {
         <div className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Paper className={classes.paper}>
-                        <h4>Listagem de Pedidos</h4>
-                    </Paper>
+                    <h4>Listagem de Pedidos</h4>
                 </Grid>
                 <Grid item xs={12}>
+                    <Button 
+                        startIcon={<ControlPoint />}
+                        color="inherit"
+                        component={Link} 
+                        to="/pedidos/new"
+                    >
+                        Novo Pedido
+                    </Button>
                     <TableContainer component={Paper}>
                         <Table className={classes.table} size="small" aria-label="a dense table">
                             <TableHead>

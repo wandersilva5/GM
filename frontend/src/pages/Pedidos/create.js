@@ -12,16 +12,13 @@ const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
     },
-    // paper: {
-    //   padding: theme.spacing(2),
-    //   textAlign: 'left',
-    //   color: theme.palette.text.secondary,
-    // },
+    
 }));
 
 export default function PedidoNew() {
     const [ numPedido, setNumPedido ] = useState('');
-    const [ cliente, setCliente ] = useState('');
+    const [ clientes, setClientes ] = useState([]);
+    const [ cliente_id, setClienteId ] = useState('');
     const [ materiais, setMateriais ] = useState([]);
     const [ qtd, setQtd ] = useState([]);
     const [ valTotal, setValTotal ] = useState([]);
@@ -30,20 +27,41 @@ export default function PedidoNew() {
 
     const userToken   = localStorage.getItem('userToken');
 
-    useEffect(()=>{
-        api.get('pedidos', {
+    useEffect(() => {
+        api.get('clientes', {
             headers:{
                 Authorization: userToken
             }
         }).then(response => {
-            // setNumPedido(response.data);
+            setClientes(response.data);
         });
-    },[userToken]);
+        
+        api.get('materiais', {
+            headers:{
+                Authorization: userToken
+            }
+        }).then(response => {
+            setMateriais(response.data);
+        });
+    }, [userToken]);
+
 
     async function handlePedido(e){
         e.preventDefault();
 
+        await api.post('pedidos', {
+            numPedido,
+            clientes,
+            materiais,
+            qtd,
+            valTotal,
+        }).catch(error =>{
+            console.log(error)
+        });
+        
+
     }
+
 
     return (
         <div className={classes.root}>
@@ -52,8 +70,8 @@ export default function PedidoNew() {
                 <form onSubmit={handlePedido} >
                     <div>
                         <TextField 
-                            className="col-7"
-                            style={{ 'marginRight':'8px'}}
+                            className="col-4"
+                            style={{ 'marginRight':'16px'}}
                             width="100"
                             margin="normal"
                             required
@@ -63,18 +81,28 @@ export default function PedidoNew() {
                         />
 
                         <TextField 
-                            className="col-4"
+                            className="col-7"
                             margin="normal"
-                            required
-                            label="CLiente"
-                            value={cliente}
-                            onChange={e => setCliente(e.target.value)}
-                        />
+                            select
+                            label="Cliente"
+                            SelectProps={{
+                                native: true,
+                            }}
+                            value={cliente_id}
+                            onChange={e => setClienteId(e.target.value)}
+                        >
+                            <option value=""></option>
+                            {clientes.map((option) => (
+                                <option key={option.id} value={option.id}>
+                                {option.nomeFantasia}
+                                </option>
+                            ))}
+                        </TextField>
                     </div>
                     <div>
                         <TextField 
                             className="col-6"
-                            style={{ 'marginRight':'8px'}}
+                            style={{ 'marginRight':'16px'}}
                             margin="normal"
                             label="Material"
                             value={materiais}
@@ -82,7 +110,7 @@ export default function PedidoNew() {
                         />
                         <TextField 
                             className="col-2"
-                            style={{ 'marginRight':'8px'}}
+                            style={{ 'marginRight':'16px'}}
                             margin="normal"
                             label="Quantidade"
                             value={qtd}
@@ -90,7 +118,7 @@ export default function PedidoNew() {
                         />
                         <TextField 
                             className="col-2"
-                            style={{ 'marginRight':'8px'}}
+                            style={{ 'marginRight':'16px'}}
                             disabled
                             margin="normal"
                             label="Valor"
@@ -104,7 +132,7 @@ export default function PedidoNew() {
                     </div>
                     <TableContainer component={Paper}>
                         <Table>
-                        <TableHead>
+                        <TableHead style={{ "backgroundColor": "#CCC5" }} >
                                 <TableRow>
                                     <TableCell>Listas dos Materiais</TableCell>
                                     <TableCell align="right">Quantidade</TableCell>
@@ -112,19 +140,22 @@ export default function PedidoNew() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                            {/* {pedidos.map((pedido) => ( */}
                                 <TableRow key={ 'id' }>
                                     <TableCell component="th" scope="row"> Desodorante cc xpto </TableCell>
                                     <TableCell align="right">30</TableCell>
                                     <TableCell align="right">R$ 9,00</TableCell>
-                                    {/* <TableCell align="right">Total</TableCell> */}
                                 </TableRow>
-                            {/* ))} */}
+                                <TableRow>
+                                    <TableCell rowSpan={3} />
+                                    <TableCell align="right" colSpan={1}>Subtotal</TableCell>
+                                    <TableCell align="right">R$ 9,00</TableCell>
+                                </TableRow>
                             </TableBody>
                         </Table>
                     </TableContainer>
                     <div>
                         <Button 
+                            style={{ 'marginRight':'8px'}}
                             type="submit"
                             variant="contained"
                             color="primary"

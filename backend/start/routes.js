@@ -7,6 +7,7 @@ Route.post('/login', 'AuthController.login').middleware('guest');
 
 Route.group(() =>{
     Route.resource('materials', 'MaterialController').apiOnly();
+    Route.get('busca/:descricao', 'MaterialController.busca');
     
     Route.resource('clientes', 'ClienteController').apiOnly();
     

@@ -51,6 +51,17 @@ class MaterialController {
   
     await material.delete()
   }
+
+  async busca ({ params }){
+
+    const materiais = await Material
+      .query()
+      .select('descricao', 'valor')
+      .whereRaw(`'descricao' LIKE '%_${params.descricao}_%'`)
+      .fetch();
+
+    return materiais
+  }
 }
 
 module.exports = MaterialController

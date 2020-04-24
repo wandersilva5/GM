@@ -6,6 +6,8 @@ import  {
     TableContainer, Paper, Table, TableHead, TableRow, TableBody, TableCell
 } from '@material-ui/core';
 
+// import Autocomplete from '@material-ui/lab/Autocomplete';
+
 import api from '../../services/api';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,8 +21,10 @@ export default function PedidoNew() {
     const [ numPedido, setNumPedido ] = useState('');
     const [ clientes, setClientes ] = useState([]);
     const [ cliente_id, setClienteId ] = useState('');
+    const [ material, setMaterial ] = useState('');
     const [ materiais, setMateriais ] = useState([]);
-    const [ qtd, setQtd ] = useState([]);
+    const [ qtd, setQtd ] = useState(0);
+    const [ valorMaterial, setValorMaterial ] = useState(0.00);
     const [ valTotal, setValTotal ] = useState([]);
 
     const classes = useStyles();
@@ -36,7 +40,7 @@ export default function PedidoNew() {
             setClientes(response.data);
         });
         
-        api.get('materiais', {
+        api.get('materials', {
             headers:{
                 Authorization: userToken
             }
@@ -49,18 +53,23 @@ export default function PedidoNew() {
     async function handlePedido(e){
         e.preventDefault();
 
-        await api.post('pedidos', {
-            numPedido,
-            clientes,
-            materiais,
-            qtd,
-            valTotal,
-        }).catch(error =>{
-            console.log(error)
-        });
-        
-
+        // await api.post('pedidos', {
+        //     numPedido,
+        //     clientes,
+        //     materiais,
+        //     qtd,
+        //     valTotal,
+        // }).catch(error =>{
+        //     console.log(error)
+        // });
     }
+
+    // async function MultiplicaValor(){
+    //     setMaterial(materiais.filter(material => material.id == material))
+    //     const resultado = qtd * material.valor;
+        
+    //     return setValorMaterial(resultado);
+    // }
 
 
     return (
@@ -100,28 +109,31 @@ export default function PedidoNew() {
                         </TextField>
                     </div>
                     <div>
-                        <TextField 
-                            className="col-6"
-                            style={{ 'marginRight':'16px'}}
-                            margin="normal"
-                            label="Material"
-                            value={materiais}
-                            onChange={e => setMateriais(e.target.value)}
-                        />
+                        {/* <Autocomplete 
+                            options={materiais}
+                            getOptionLabel={(option) => option.descicao}
+                            style={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+                        /> */}
                         <TextField 
                             className="col-2"
                             style={{ 'marginRight':'16px'}}
                             margin="normal"
                             label="Quantidade"
+                            type="number"
                             value={qtd}
                             onChange={e => setQtd(e.target.value)}
                         />
+                        {/* <input type="hidden" id="valorMaterial" value="200" onChange={e => setQtd(e.target.value)}/> */}
                         <TextField 
+                            id="valorMaterial"
                             className="col-2"
                             style={{ 'marginRight':'16px'}}
                             disabled
                             margin="normal"
                             label="Valor"
+                            value={valorMaterial}
+                            onChange={e => setValorMaterial(e.target.value)}
                         />
                         <Button 
                             variant="contained"
@@ -131,7 +143,7 @@ export default function PedidoNew() {
                         </Button>
                     </div>
                     <TableContainer component={Paper}>
-                        <Table>
+                        <Table id="table_materiais">
                         <TableHead style={{ "backgroundColor": "#CCC5" }} >
                                 <TableRow>
                                     <TableCell>Listas dos Materiais</TableCell>
